@@ -5,8 +5,10 @@ def main():
     # print(f"First line is:\n{first_line}")
     wc = word_count(contents)
     cc = char_count(contents)
-    print(f"This document contains {wc} words.")
-    print(f"This document contains {cc}")
+    #print(f"This document contains {wc} words.")
+    #print(f"This document contains {cc}")
+    sorted_char_list = char_list_sort(cc)
+    report(wc,sorted_char_list)
 def open_book(path):
     with open(path)as f:
         return f.read()
@@ -24,5 +26,24 @@ def char_count(text):
             else:
                 chars_dict[char] = 1
     return chars_dict
+def char_list_sort(cc_dict):
+    sorted_list = []
+    for char in cc_dict:
+        sorted_list.append({"char": char, "num_times": cc_dict[char]})
+    sorted_list.sort(key=sort_on)
+    return sorted_list
+def sort_on(dictionary):
+    return dictionary['num_times']
+def report(wc, cc_sorted_list):
+    # print the word count of the document
+    # passing in an int as the word count so this is easy
+    print(f"This document contains {wc} words.")
+
+    # print the character and the number of times that character appeared in the document
+    # passing in a list of dictionaries, example, "char": 'a', "num_times": 5
+    for thing in cc_sorted_list:
+        if thing['char'].isalpha() == False:
+            continue
+        print(f"The letter {thing['char']} appeared {thing['num_times']} number of times")
 if __name__ == '__main__':
     main()
